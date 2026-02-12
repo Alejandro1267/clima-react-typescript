@@ -2,6 +2,7 @@ import axios from "axios";
 import type { Search } from "../types";
 import { z } from "zod";
 import { useState } from "react";
+import { formatTemperture } from "../utils";
 
 const Weather = z.object({
   name: z.string(),
@@ -15,13 +16,13 @@ const Weather = z.object({
 const AdaptedWeather = Weather.transform(({ name, main }) => ({
   city: name,
   temperature: {
-    current: main.temp,
-    minimum: main.temp_min,
-    maximum: main.temp_max,
+    current: formatTemperture(main.temp),
+    minimum: formatTemperture(main.temp_min),
+    maximum: formatTemperture(main.temp_max),
   },
 }));
 
-type Weather = z.infer<typeof AdaptedWeather>;
+export type Weather = z.infer<typeof AdaptedWeather>;
 
 export default function useWeather() {
   const [weather, setWeather] = useState<Weather>({

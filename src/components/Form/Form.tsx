@@ -1,13 +1,9 @@
-import {
-  useState,
-  type ChangeEvent,
-  type SubmitEvent,
-  type SubmitEventHandler,
-} from "react";
+import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import { countries } from "../../data/countries";
 import styles from "./Form.module.css";
 import type { Search } from "../../types";
 import Alert from "../Alert/Alert";
+import useWeather from "../../hooks/useWeather";
 
 export default function Form() {
   const [search, setSearch] = useState<Search>({
@@ -15,6 +11,8 @@ export default function Form() {
     country: "",
   });
   const [alert, setAlert] = useState("");
+
+  const { fetchWeather } = useWeather();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
@@ -32,6 +30,7 @@ export default function Form() {
       setAlert("Todos los campos son obligatorios");
       return;
     }
+    fetchWeather(search);
   };
 
   return (

@@ -1,4 +1,5 @@
-import { type Weather } from "../../hooks/useWeather";
+import type { Weather } from "../../hooks/useWeather";
+import styles from "./WeatherDetail.module.css";
 
 type Props = {
   weather: Weather;
@@ -6,12 +7,16 @@ type Props = {
 
 export default function WeatherDetail({ weather }: Props) {
   return (
-    <div>
+    <div className={styles.container}>
       <h2>Clima de: {weather.city}</h2>
-      <p>{weather.temperature.current}&deg;C</p>
-      <div>
-        <p>Min: {weather.temperature.minimum}&deg;C</p>
-        <p>Máx: {weather.temperature.maximum}&deg;C</p>
+      <p className={styles.current}>{weather.temperature.current}&deg;C</p>
+      <div className={styles.temperatures}>
+        <p>
+          Min: <span>{weather.temperature.minimum}&deg;C</span>
+        </p>
+        <p>
+          Máx: <span>{weather.temperature.maximum}&deg;C</span>
+        </p>
       </div>
     </div>
   );

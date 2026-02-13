@@ -1,3 +1,3 @@
 export const formatTemperture = (temperture: number) => {
-  return temperture - 273.15
+  return parseInt((temperture - 273.15).toString());
 }

@@ -3,16 +3,17 @@ import { countries } from "../../data/countries";
 import styles from "./Form.module.css";
 import type { Search } from "../../types";
 import Alert from "../Alert/Alert";
-import useWeather from "../../hooks/useWeather";
 
-export default function Form() {
+type Props = {
+  fetchWeather: (search: Search) => void;
+};
+
+export default function Form({ fetchWeather }: Props) {
   const [search, setSearch] = useState<Search>({
     city: "",
     country: "",
   });
   const [alert, setAlert] = useState("");
-
-  const { fetchWeather } = useWeather();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,

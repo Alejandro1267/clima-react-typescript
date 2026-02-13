@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Search } from "../types";
 import { z } from "zod";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { formatTemperture } from "../utils";
 
 const Weather = z.object({
@@ -40,6 +40,7 @@ export default function useWeather() {
     try {
       const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${apiKey}`;
       const { data } = await axios.get(geoUrl);
+      console.log("data", data);
 
       const lat = data[0].lat;
       const lon = data[0].lon;
@@ -47,7 +48,9 @@ export default function useWeather() {
       const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
       const { data: weatherResponse } = await axios.get(weatherUrl);
 
-      const result = AdaptedWeather.safeParse(weatherResponse); 
+      const result = AdaptedWeather.safeParse(weatherResponse);
+
+      console.log("result", result);
 
       if (result.success) {
         setWeather(result.data);
@@ -59,8 +62,11 @@ export default function useWeather() {
     }
   };
 
+  const hasWeatherData = useMemo(() => weather.city, [weather.city]);
+
   return {
     weather,
     fetchWeather,
+    hasWeatherData,
   };
 }

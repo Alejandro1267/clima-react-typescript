@@ -24,20 +24,23 @@ const AdaptedWeather = Weather.transform(({ name, main }) => ({
 
 export type Weather = z.infer<typeof AdaptedWeather>;
 
+const initialState = {
+  city: '',
+   temperature: {
+    current: 0,
+    minimum: 0,
+    maximum: 0,
+  }
+}
+
 export default function useWeather() {
-  const [weather, setWeather] = useState<Weather>({
-    city: '',
-    temperature: {
-      current: 0,
-      minimum: 0,
-      maximum: 0,
-    }
-  });
+  const [weather, setWeather] = useState<Weather>(initialState);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchWeather = async (search: Search) => {
     const apiKey = import.meta.env.VITE_API_KEY;
     setIsLoading(true);
+    setWeather(initialState);
 
     try {
       const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${apiKey}`;

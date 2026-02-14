@@ -44,7 +44,7 @@ export default function useWeather() {
     setWeather(initialState);
 
     try {
-      const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${apiKey}`;
+      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${apiKey}`;
       const { data } = await axios.get(geoUrl);
 
       if (!data[0]) {
@@ -59,8 +59,6 @@ export default function useWeather() {
       const { data: weatherResponse } = await axios.get(weatherUrl);
 
       const result = AdaptedWeather.safeParse(weatherResponse);
-
-      console.log("result", result);
 
       if (result.success) {
         setWeather(result.data);
